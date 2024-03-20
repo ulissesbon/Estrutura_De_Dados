@@ -6,23 +6,30 @@
 struct lista{
     int tam;
     int cap;
-    int *valores;
+    int *valores[capacidade];
 };
 
 void init(struct lista *l){
+    int i;
+    
     l->tam = 0;
     l->cap = capacidade;
-    l->valores = malloc(capacidade * sizeof(int));
+    for(i = 0; i < l->cap; i++){
+        l->valores[i] = NULL;
+    }
 }
 
 void free_struct(struct lista *l){
-    free(l->valores);
+    int i = 0;
+    for(i = 0; i < l->tam; i++){
+        free(l->valores[i]);
+    }
 }
 
 int buscar(struct lista *l, int valor){
     int i = 0, index = -1;
     for(i ; i < l->tam ; i++){
-        if(*(l->valores + i) == valor){
+        if(*l->valores[i] == valor){
             index = i;
             break;
         }
@@ -33,7 +40,7 @@ int buscar(struct lista *l, int valor){
 int listar(struct lista *l){
     int i;
     for(i=0; i < l->tam ; i++){
-        printf("%d\n", *(l->valores + i));
+        printf("%d\n", *l->valores[i]);
     }
 
 }
@@ -45,7 +52,8 @@ int inserir(struct lista *l, int valor){
     }
     else{
         int i = l->tam;
-        *(l->valores + i)= valor;
+        l->valores[i]= malloc(sizeof(int));
+        *l->valores[i] = valor;
         l->tam++;
         printf("Valor adicionado!\n");
     }
@@ -54,7 +62,7 @@ int inserir(struct lista *l, int valor){
 
 int alterar(struct lista *l, int valor, int novo_valor){
     if(buscar(l, valor) != -1){
-        *(l->valores + buscar(l, valor)) = novo_valor;
+        *l->valores[buscar(l, valor)] = novo_valor;
     }
     else{
         printf("Valor inicial n�o encontrado!\n");
@@ -73,10 +81,11 @@ int excluir(struct lista *l, int valor){
                 break;
             }
             else{
-                *(l->valores + i) = *(l->valores + i + 1);
+                *l->valores[i] = *l->valores[i + 1];
                 i++;
             }
         }
+        free(l->valores[l->tam]);
         l->tam = l->tam-1;
         printf("Valor excluido com sucesso!\n");
     }
@@ -87,10 +96,10 @@ int ordenar(struct lista *l){
     int i = 0, j = 0;
     for(i = 0 ; i < l->tam ; i++){
         for (j = 0 ; j < l->tam - 1 - i ; j++){
-            if(*(l->valores + j)  >  *(l->valores + j + 1)){
-                aux = *(l->valores + j);
-                *(l->valores + j) = *(l->valores + j + 1);
-                *(l->valores + j + 1) = aux;
+            if(*l->valores[j]  >  *l->valores[j + 1]){
+                aux = *l->valores[j];
+                *l->valores[j] = *l->valores[j + 1];
+                *l->valores[j + 1] = aux;
             }
         }
     }
@@ -120,7 +129,10 @@ int main(){
     excluir(&ls, 1);
     excluir(&ls, 2);
     listar(&ls);
+
     free_struct(&ls);
+
+
 
     return 0;
 }
