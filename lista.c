@@ -15,14 +15,14 @@ void init(struct lista *l){
 }
 
 int buscar(struct lista *l, int valor){
-    int i = l->tam;
-    for(i ; i > -1 ; i--){
-        if(valor == l->vet[i]){
-            return i;
+    int i = 0, index = -1;
+    for(i ; i < l->tam ; i++){
+        if(l->vet[i] == valor){
+            index = i;
+            break;
         }
-        else
-            return -1;
     }
+    return index;
 }
 
 int listar(struct lista *l){
@@ -34,8 +34,8 @@ int listar(struct lista *l){
 }
 
 int inserir(struct lista *l, int valor){
-    if(l->tam == l->cap){
-		printf("Valor já inserido ou vetor lotado!\n");
+    if(l->tam == l->cap || buscar(l, valor) != -1){
+		printf("Vetor lotado ou valor jÃ¡ inserido!\n");
         return -1;
     }
     else{
@@ -51,14 +51,14 @@ int alterar(struct lista *l, int valor, int novo_valor){
         l->vet[buscar(l, valor)] = novo_valor;
     }
     else{
-        printf("Valor inicial não encontrado!\n");
+        printf("Valor inicial nï¿½o encontrado!\n");
         return -1;
     }
 }
 
 int excluir(struct lista *l, int valor){
     if(buscar(l, valor) == -1){
-        printf("Valor não encontrado!\n");
+        printf("Valor nï¿½o encontrado!\n");
     }
     else{
         int i = buscar(l, valor);
@@ -78,13 +78,13 @@ int excluir(struct lista *l, int valor){
 
 int ordenar(struct lista *l){
     int aux;
-    int i = 0, j = 0;
-    for(i ; i < l->tam ; i++){
-        for (j ; j < l->tam ; j++){
-            if(l->vet[i]  >  l->vet[j]){
-                aux = l->vet[i];
-                l->vet[i] = l->vet[j];
-                l->vet[j] = aux;
+    int i,j;
+    for(i = 0 ; i < l->tam ; i++){
+        for (j = 0 ; j < l->tam - 1 - i ; j++){
+            if(l->vet[j]  >  l->vet[j + 1]){
+                aux = l->vet[j];
+                l->vet[j] = l->vet[j + 1];
+                l->vet[j + 1] = aux;
             }
         }
     }
@@ -92,14 +92,23 @@ int ordenar(struct lista *l){
 
 int main(){
 
-	int a=2;
+	
 	
     struct lista ls;
     init(&ls);
-    inserir(&ls, a);
+    inserir(&ls, 3);
+    inserir(&ls, 2);
+    inserir(&ls, 2);
+    inserir(&ls, 10);
+    inserir(&ls, 6);
+    listar(&ls);
+    printf("\n\n");
+    excluir(&ls, 10);
+    inserir(&ls, 12);
+    inserir(&ls, 5);
+    ordenar(&ls);
     listar(&ls);
 
 
     return 0;
 }
-
