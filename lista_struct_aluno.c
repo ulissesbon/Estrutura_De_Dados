@@ -35,8 +35,7 @@ void free_struct(struct lista *l){
 int buscar(struct lista *l, char *matricula){
     int i = 0, index = -1;
     for(i ; i < l->tam ; i++){
-        char *aux = *(l->palunos[i])->matricula;
-        if(strcmp(*aux, *matricula)){
+        if(!strcmp(l->palunos[i]->matricula, matricula)){
             index = i;
             break;
         }
@@ -47,20 +46,20 @@ int buscar(struct lista *l, char *matricula){
 int listar(struct lista *l){
     printf("Alunos matriculados:\n");
     for(int i = 0; i < l->tam; i++){
-        printf("%d)Aluno: %s \nMatricula: %s;\n", i+1, *(l->palunos[i])->nome, *(l->palunos[i])->matricula);
-        printf("-------------------------------");
+        printf("%d)Aluno: %s \nMatricula: %s;\n", i+1, l->palunos[i]->nome, l->palunos[i]->matricula);
+        printf("\n-------------------------------\n");
     }
 }
 
 int inserir(struct lista *l, char* nome, char* matricula){
-    if(l->tam == l->cap || buscar(l, *matricula) >= 0){
+    if(l->tam == l->cap || buscar(l, matricula) >= 0){
 		printf("Matriculas lotadas ou ja aluno matriculado!\n");
         return -1;
     }
     
     l->palunos[l->tam]= malloc(sizeof(struct aluno)); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    strcpy(*(l->palunos[l->tam])->nome, *nome);
-    strcpy(*(l->palunos[l->tam])->matricula, *matricula);
+    strcpy(l->palunos[l->tam]->nome, nome);
+    strcpy(l->palunos[l->tam]->matricula, matricula);
     l->tam++;
     printf("Aluno matriculado com sucesso!\n");
 }
@@ -72,10 +71,10 @@ int alterar(struct lista *l, char* matricula, char* nome){
         scanf("%d", &op);
         while(op != 3){
             if(op == 1){
-                *(l->palunos[buscar(l, matricula)])->nome = *nome;
+                *l->palunos[buscar(l, matricula)]->nome = nome;
             }
             else if(op == 2){
-                *(l->palunos[buscar(l, matricula)])->matricula = *matricula;
+                *l->palunos[buscar(l, matricula)]->matricula = matricula;
             }
             else if(op == 3){
                 break;
@@ -91,11 +90,11 @@ int alterar(struct lista *l, char* matricula, char* nome){
 }
 
 int excluir(struct lista *l, char *matricula){
-    if(buscar(l, *matricula) == -1){
+    if(buscar(l, matricula) == -1){
         printf("Aluno n�o encontrado!\n");
     }
     else{
-        int i = buscar(l, *matricula);
+        int i = buscar(l, matricula);
         while(i < l->tam){
             if(i == (l->tam-1)){
                 break;
@@ -117,7 +116,7 @@ int ordenar(struct lista *l){
     int i = 0, j = 0;
     for(i = 0 ; i < l->tam ; i++){
         for (j = 0 ; j < l->tam - 1 - i ; j++){
-            if(strcmp(*(l->palunos[j])->nome, *(l->palunos[j + 1])->nome) > 0){
+            if(strcmp(l->palunos[j]->nome, l->palunos[j + 1]->nome) > 0){
                 aux = l->palunos[j];
                 l->palunos[j] = l->palunos[j + 1];
                 l->palunos[j + 1] = aux;
@@ -131,7 +130,15 @@ int main(){
 	
 	
     struct lista ls;
+    init(&ls);
     inserir(&ls, "Ulisses Goncalves Bonfim", "12345678901234");
+    inserir(&ls, "Marcelo Antonio Dantas", "12354435234665");
+    inserir(&ls, "Larissa Manoela", "12345678524665");
+    listar(&ls);
+    ordenar(&ls);
+    listar(&ls);
+
+    excluir(&ls, "12345678524665");
     listar(&ls);
 
 
