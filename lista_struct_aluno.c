@@ -27,8 +27,10 @@ void init(struct lista *l){
 
 void free_struct(struct lista *l){
     int i = 0;
-    for(i = 0; i < l->tam; i++){
-        free(l->palunos[i]);
+    for(i = 0; i < l->cap; i++){
+        if( ! l->palunos ){
+            free(l->palunos[i]);
+        }
     }
 }
 
@@ -44,10 +46,10 @@ int buscar(struct lista *l, char *matricula){
 }
 
 int listar(struct lista *l){
-    printf("Alunos matriculados:\n");
+    printf("Alunos matriculados:\n\n");
     for(int i = 0; i < l->tam; i++){
         printf("%d)Aluno: %s \nMatricula: %s;\n", i+1, l->palunos[i]->nome, l->palunos[i]->matricula);
-        printf("\n-------------------------------\n");
+        printf("-------------------------------\n");
     }
 }
 
@@ -95,18 +97,13 @@ int excluir(struct lista *l, char *matricula){
     }
     else{
         int i = buscar(l, matricula);
-        while(i < l->tam){
-            if(i == (l->tam-1)){
-                break;
-            }
-            else{
+        free(l->palunos[i]);
+        for(i; i < l->tam - 1; i++){
                 l->palunos[i] = l->palunos[i + 1];
-                i++;
-            }
-        }
+            }    
+        l->tam = l->tam-1;
         l->palunos[l->tam] = NULL;
         free(l->palunos[l->tam]);
-        l->tam = l->tam-1;
         printf("Aluno excluido com sucesso!\n");
     }
 }
@@ -141,6 +138,7 @@ int main(){
     excluir(&ls, "12345678524665");
     listar(&ls);
 
+    free_struct(&ls);
 
     return 0;
 }

@@ -76,17 +76,12 @@ int excluir(struct lista *l, int valor){
     }
     else{
         int i = buscar(l, valor);
-        while(i < l->tam){
-            if(i == (l->tam-1)){
-                break;
-            }
-            else{
+        for(i ; i < l->tam - 1; i++){
                 *l->valores[i] = *l->valores[i + 1];
-                i++;
-            }
         }
-        free(l->valores[l->tam]);
         l->tam = l->tam-1;
+        l->valores[l->tam] = NULL;
+        free(l->valores[l->tam]);
         printf("Valor excluido com sucesso!\n");
     }
 }
