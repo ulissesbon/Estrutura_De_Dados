@@ -55,25 +55,86 @@ void inserir_comeco(struct no **lista, int valor){
     }
 }
 
+void inserir_fim(struct no **lista, int valor){
+
+    struct no *aux = malloc(sizeof(struct no));
+    aux->valor = valor;
+    if (*lista == NULL){
+        aux->prox = NULL;
+        *lista = aux;
+    }
+    else{
+        struct no *aux2 = *lista;
+        while(aux2->prox != NULL){
+            aux2 = aux2->prox;
+        }
+        aux2->prox = aux;
+    }
+}
+
+void inserir_ordem(struct no **lista, int valor){
+
+    struct no *aux = malloc(sizeof(struct no));
+    aux->valor = valor;
+
+    if(*lista == NULL){
+        aux->prox = NULL;
+        *lista = aux;
+        return;
+    }
+
+    if((*lista)->prox == NULL){
+        if((*lista)->valor <= valor){
+            (*lista)->prox = aux;
+            aux->prox = NULL;
+            return;
+        }
+        else{
+            aux->prox = *lista;
+            *lista = aux;
+            return;
+            
+        }
+    }
+
+    if((*lista)->valor > valor){
+        aux->prox = *lista;
+        *lista = aux;
+        return;
+    }
+
+    struct no *anterior = *lista;
+    struct no *atual = (*lista)->prox;
+    
+    while(atual->valor < valor && atual->prox !=NULL){
+        anterior = anterior->prox;
+        atual = atual->prox;
+    }
+    if(atual->prox == NULL){
+        aux->prox = NULL;
+        atual->prox = aux;
+    }
+    else{
+        aux->prox = atual;
+        anterior->prox = aux;
+    }
+
+}
+
 
 int main(){
 
     struct no *ls = NULL;
 
-    inserir_comeco(&ls, 8);
-    inserir_comeco(&ls, 5);
-    inserir_comeco(&ls, 3);
-    inserir_comeco(&ls, 10);
-    inserir_comeco(&ls, 1);
-    inserir_comeco(&ls, 40);
+    inserir_ordem(&ls, 15);
+    inserir_ordem(&ls, 10);
+    inserir_ordem(&ls, 1226524);
+    inserir_ordem(&ls, 1565);
+    inserir_ordem(&ls, 140);
+    inserir_ordem(&ls, 7);
+    
     listar(ls);
-    printf("\n\n");
 
-    alterar(ls, 40, 88);
-    alterar(ls, 3, 22);
-    alterar(ls, 8, 11);
-    listar(ls);
-    printf("\n\n");
 
 return 0;
 }
