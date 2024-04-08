@@ -35,10 +35,60 @@ int listar(struct lista *l){
     for(i=0; i < l->tam ; i++){
         printf("%d\n", *(l->valores + i));
     }
-
 }
 
-int inserir(struct lista *l, int valor){
+int ordenar(struct lista *l){
+    int aux;
+    int i = 0, j = 0;
+    for(i = 0 ; i < l->tam ; i++){
+        for (j = 0 ; j < l->tam - 1 - i ; j++){
+            if(*(l->valores + j)  >  *(l->valores + j + 1)){
+                aux = *(l->valores + j);
+                *(l->valores + j) = *(l->valores + j + 1);
+                *(l->valores + j + 1) = aux;
+            }
+        }
+    }
+}
+
+int inserir_ordem(struct lista *l, int valor){
+    if(l->tam == l->cap || buscar(l, valor) != -1){
+		printf("Valor j� inserido ou vetor lotado!\n");
+        return -1;
+    }
+    else{
+        ordenar(l);
+        int i = 0;
+        while(*(l->valores + i) < valor && i < l->tam){
+            i++;
+        }
+        int j = l->tam;
+        for(j = l->tam; j>i; j--){
+            *(l->valores + j) = *(l->valores + j - 1);
+        }
+        *(l->valores + i) = valor;
+        l->tam++;
+    }
+}
+
+int inserir_comeco(struct lista *l, int valor){
+    if(l->tam == l->cap || buscar(l, valor) != -1){
+		printf("Valor j� inserido ou vetor lotado!\n");
+        return -1;
+    }
+    else{
+        int i = l->tam;
+        while(i > 0){
+            *(l->valores + i) = *(l->valores + i -1);
+            i--;
+        }
+        *(l->valores) = valor;
+        l->tam++;
+
+    }
+}
+
+int inserir_fim(struct lista *l, int valor){
     if(l->tam == l->cap || buscar(l, valor) != -1){
 		printf("Valor j� inserido ou vetor lotado!\n");
         return -1;
@@ -82,19 +132,7 @@ int excluir(struct lista *l, int valor){
     }
 }
 
-int ordenar(struct lista *l){
-    int aux;
-    int i = 0, j = 0;
-    for(i = 0 ; i < l->tam ; i++){
-        for (j = 0 ; j < l->tam - 1 - i ; j++){
-            if(*(l->valores + j)  >  *(l->valores + j + 1)){
-                aux = *(l->valores + j);
-                *(l->valores + j) = *(l->valores + j + 1);
-                *(l->valores + j + 1) = aux;
-            }
-        }
-    }
-}
+
 
 int main(){
 
@@ -102,16 +140,14 @@ int main(){
 	
     struct lista ls;
     init(&ls);
-    inserir(&ls, 2);
-    for(int i=1; i<=9; i++){
-        inserir(&ls, i);
-    }
-    printf("\n\n");
-    printf("\n\n");
-    listar(&ls);
-    printf("\n\n");
-    printf("\n\n");
-    ordenar(&ls);
+    inserir_ordem(&ls, 2);
+    inserir_ordem(&ls, 9);
+    inserir_ordem(&ls, 5);
+    inserir_ordem(&ls, 1);
+    inserir_ordem(&ls, 12);
+    inserir_ordem(&ls, 24);
+    
+
     listar(&ls);
     printf("\n\n");
     printf("\n\n");

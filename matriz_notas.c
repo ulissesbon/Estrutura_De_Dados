@@ -4,7 +4,7 @@
 
 int main(){
 	
-	int i=0, op;
+	int i = 0, op;
 	
     float *notas[10];  
     float *media[10];
