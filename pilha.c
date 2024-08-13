@@ -34,12 +34,9 @@ int inserir(struct fila *p, int valor){
 		printf("Vetor lotado!\n");
         return -1;
     }
-    else{
-        int i = (p->fim) + 1;
-        *(p->valores + i) = valor;
-        p->fim++;
-        printf("Valor adicionado!\n");
-    }
+    p->fim++;
+    *(p->valores + p->fim) = valor;
+    printf("Valor adicionado!\n");
 
 }
 
@@ -49,6 +46,8 @@ void tamanho_fila(struct fila *p){
 
 
 void excluir(struct fila *p){
+    if(p->fim == -1)
+        return;
     p->fim = p->fim - 1;
 }
 

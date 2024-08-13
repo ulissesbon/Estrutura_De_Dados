@@ -1,0 +1,3 @@
+/home/ulisses/Estrutura_De_Dados/cmake-build-debug/CMakeFiles/untitled.dir
+/home/ulisses/Estrutura_De_Dados/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/ulisses/Estrutura_De_Dados/cmake-build-debug/CMakeFiles/rebuild_cache.dir
