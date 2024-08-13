@@ -8,7 +8,7 @@ struct pilha{
 };
 
 
-void adicionar(struct pilha **pilha, int valor){
+void adicionar_comeco(struct pilha **pilha, int valor){
     struct pilha *aux = malloc(sizeof(pilha));
     aux->valor = valor;
     aux->prox = NULL;
@@ -23,7 +23,7 @@ void adicionar(struct pilha **pilha, int valor){
     }
 }
 
-int remover(struct pilha **pilha){
+int remover_comeco(struct pilha **pilha){
     if (*pilha == NULL){
         printf("Pilha vazia!\n");
         return -1;
@@ -57,22 +57,22 @@ int main(){
 
     struct pilha *p = NULL;
 
-    adicionar(&p, 5);
-    adicionar(&p, 42);
-    adicionar(&p, 92);
-    adicionar(&p, 26);
+    adicionar_comeco(&p, 5);
+    adicionar_comeco(&p, 42);
+    adicionar_comeco(&p, 92);
+    adicionar_comeco(&p, 26);
 
     mostrar(p);
     pegar(p);
     printf("\n");
 
-    remover(&p);
+    remover_comeco(&p);
     pegar(p);
 
-    remover(&p);
+    remover_comeco(&p);
     pegar(p);
 
-    remover(&p);
+    remover_comeco(&p);
     pegar(p);
 
     mostrar(p);
