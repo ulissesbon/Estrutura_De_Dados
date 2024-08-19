@@ -49,6 +49,35 @@ void remover_inicio(struct fila **f){
     free(aux);
 }
 
+void remover_meio(struct fila **f, int valor){
+    struct fila *aux = *f;
+    while(aux){
+        if(aux->valor == valor)
+            break;
+        aux = aux->prox;
+    }
+    if(aux){
+        (aux->anterior)->prox = aux->prox;
+        (aux->prox)->anterior = aux->anterior;
+        free(aux);
+        aux = NULL;
+        return;
+    }
+    printf("Valor %d não encontrado!\n", valor);
+}
+
+
+void remover_fim(struct fila **f){
+    struct fila *aux = *f;
+    while(aux->prox){
+        aux = aux->prox;
+    }
+    (aux->anterior)->prox = NULL;
+    free(aux);
+    aux = NULL;
+}
+
+
 void listar(struct fila *f){
     struct fila *aux = f;
     printf("[ ");
@@ -85,8 +114,8 @@ int main(){
 
     listar(ls);
 
-    remover_inicio(&ls);
-    remover_inicio(&ls);
+    remover_fim(&ls);
+    remover_meio(&ls, 18);
 
     listar(ls);
     

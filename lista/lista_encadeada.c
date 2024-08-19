@@ -52,12 +52,10 @@ void ordenar(struct no *lista){
             if(aux_i->valor > aux_j->valor){
                 trocar(aux_i, aux_j);
             }
-        aux_j = aux_j->prox;
+            aux_j = aux_j->prox;
         }
         aux_i = aux_i->prox;
     }
-    
-
 }
 
 

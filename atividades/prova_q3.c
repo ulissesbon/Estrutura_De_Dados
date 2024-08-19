@@ -18,6 +18,31 @@ int inserir_comeco(struct no **lista, const char *nome){
     *lista = aux;
 }
 
+int inserir_fim(struct no **lista, const char *nome){
+    struct no *aux = malloc(sizeof(struct no));
+    strcpy(aux->nome, nome);
+    aux->prox = NULL;
+
+    
+    if(aux == NULL){
+        return -1;
+    }
+    
+    if(*lista == NULL){
+        *lista = aux;
+        return 0;
+    }
+    else{
+        struct no *atual = *lista;
+        while(atual->prox){
+            atual = atual ->prox;
+        }
+        atual->prox = aux;
+    }
+}
+
+
+
 void imprimir(struct no *l){
     struct no *aux = l;
     while(aux != NULL){
@@ -39,8 +64,8 @@ int main(){
 
     struct no *nomes = NULL;
 
-    inserir_comeco(&nomes, "Ulisses");
-    inserir_comeco(&nomes, "Vitoria");
+    inserir_fim(&nomes, "Ulisses");
+    inserir_fim(&nomes, "Vitoria");
 
     imprimir(nomes);
     nomes = NULL;

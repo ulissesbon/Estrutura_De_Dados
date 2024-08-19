@@ -35,6 +35,23 @@ void remover_fim(struct pilha **p){
     free(atual);
 }
 
+void remover_meio(struct pilha **p, int valor){
+    struct pilha *aux = *p;
+    while(aux->prox){
+        if(aux->valor == valor)
+            break;
+        aux = aux->prox;
+    }
+    if(aux == NULL){
+        printf("Valor não encontrado!\n");
+        return;
+    }
+    (aux->anterior)->prox = aux->prox;
+    (aux->prox)->anterior = aux->anterior;
+    free(aux);
+    
+}
+
 
 void listar(struct pilha *p){
     struct pilha *atual = p;
@@ -71,8 +88,7 @@ int main(){
 
     listar(pp);
 
-    remover_fim(&pp);
-    remover_fim(&pp);
+    remover_meio(&pp, 99);
 
     listar(pp);
 

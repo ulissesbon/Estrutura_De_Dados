@@ -72,7 +72,7 @@ int excluir(struct lista *l, int valor){
     if(i == -1){
         return -1;
     }
-    while(i < l->tamanho){
+    while(i < l->tamanho - 1){
         *(l->dados + i) = *(l->dados + i + 1);
         i++;
     } 
@@ -119,8 +119,6 @@ int main(){
     alterar(&ls, 1, 11);
     alterar(&ls, 99, 44);
     imprimir(&ls);
-
-
 
 
 
